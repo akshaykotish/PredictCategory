@@ -1,5 +1,3 @@
-Sure, here's a complete `README.md` file incorporating all the details:
-
 ### `README.md`
 ```markdown
 # PredictCategory
