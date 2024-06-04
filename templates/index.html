@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Crime Category Prediction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        #prediction {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Real-Time Crime Category Prediction</h1>
+        <textarea id="inputText" rows="10" cols="50" placeholder="Enter text here..."></textarea>
+        <p>Predicted Category: <span id="prediction"></span></p>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            let timeout = null;
+            $('#inputText').on('input', function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    var text = $('#inputText').val();
+                    $.ajax({
+                        url: '/predict',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ text: text }),
+                        success: function(data) {
+                            $('#prediction').hide().text(data.category).fadeIn();
+                        }
+                    });
+                }, 300);  // Adjust the delay as needed
+            });
+        });
+    </script>
+</body>
+</html>
